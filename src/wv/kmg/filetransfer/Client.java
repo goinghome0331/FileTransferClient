@@ -10,7 +10,7 @@ import com.google.gson.JsonObject;
 public class Client {
 	public static final int DEFAULT_PORT = 11111;
 	public static String DEFAULT_DOWN_PATH = "";
-	private static int REQ_LIMIT = 10;
+	private static int REQ_LIMIT = 20;
 	boolean exit = true;
 
 	public static void main(String args[]) {
@@ -19,10 +19,9 @@ public class Client {
 			try {
 				REQ_LIMIT = Integer.parseInt(args[1]);
 			}catch(NumberFormatException e) {
-				REQ_LIMIT = 10;
+				REQ_LIMIT = 20;
 			}
-		} 
-		if (args.length == 1) {
+		} else if (args.length == 1) {
 			DEFAULT_DOWN_PATH = args[0];
 		} else {
 			DEFAULT_DOWN_PATH = System.getProperty("user.home");
