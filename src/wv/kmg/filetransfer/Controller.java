@@ -20,7 +20,7 @@ public class Controller {
 	private Socket ds;
 	private String ip;
 	private String pwd;
-	private static Controller controller;
+	private static Controller controller=  new Controller();;
 	private ReceiveThread recv; 
 	private Controller() {
 		 s = new Socket();
@@ -45,10 +45,14 @@ public class Controller {
 	public ReceiveThread getReceiveThread(){
 		return recv;
 	}
-	public static synchronized Controller getInstance() {
-		if(controller == null) {
-			controller = new Controller();
-		}
+//	public static synchronized Controller getInstance() {
+//		if(controller == null) {
+//			controller = new Controller();
+//		}
+//		return controller;
+//	}
+	
+	public static Controller getInstance() {
 		return controller;
 	}
 	public void connect(String address,int port) {

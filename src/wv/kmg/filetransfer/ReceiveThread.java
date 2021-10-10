@@ -1,9 +1,7 @@
 package wv.kmg.filetransfer;
 
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.Base64;
@@ -46,8 +44,11 @@ public class ReceiveThread extends Thread {
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream(),"UTF-8"));
 			Gson gson = new Gson();
+			
 			while (true) {
 				String input = br.readLine();
+				
+				
 				JsonObject ret = gson.fromJson(input, JsonObject.class);
 				FileWriter fw = null;
 				String name = ret.get("name").getAsString();
@@ -104,10 +105,14 @@ public class ReceiveThread extends Thread {
 					}
 				}
 				int percent = (int)(((double)fw.getAcc())/ret.get("result").getAsJsonObject().get("total").getAsInt()*100);
-//				System.out.println(ret.get("path").getAsString()+"파일 "+percent+"% 다운로드 받음");
 				if(percent - fw.getPercent()  >= 1) {
 					System.out.println(ret.get("path").getAsString()+"파일 "+percent+"% 다운로드 받음");
 					fw.setPercent(percent);
+				}
+				if(m.size() == 0) {
+					synchronized (this) {
+						this.notify();
+					}
 				}
 			}
 

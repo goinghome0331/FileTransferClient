@@ -157,15 +157,24 @@ public class Client {
 					Controller.getInstance().getReceiveThread().getQ().offer(jo);
 				}
 			}
+//			try {
+//				Thread.sleep(200);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+		}
+//		while (!Controller.getInstance().getReceiveThread().isEnd()
+//				|| !Controller.getInstance().getReceiveThread().isStart()) {
+////			System.out.println(Controller.getInstance().getReceiveThread().m.size());
+//		}
+		synchronized (Controller.getInstance().getReceiveThread()) {
 			try {
-				Thread.sleep(200);
+				Controller.getInstance().getReceiveThread().wait();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		while (!Controller.getInstance().getReceiveThread().isEnd()
-				|| !Controller.getInstance().getReceiveThread().isStart()) {
 		}
 		Controller.getInstance().getReceiveThread().setStart(false);
 	}
